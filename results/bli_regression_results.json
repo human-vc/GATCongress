@@ -1,0 +1,125 @@
+{
+  "panel_stats": {
+    "n_observations": 7500,
+    "n_departed": 2279,
+    "n_unique_members": 1565,
+    "departure_rate": 0.3038666666666667
+  },
+  "without_bli": {
+    "params": {
+      "const": -1.3358089659319226,
+      "ideology_distance": 2.1229028255367517,
+      "seniority": 0.04873414343034793,
+      "is_republican": 0.18947299175162874
+    },
+    "pvalues": {
+      "const": 4.102249001622419e-68,
+      "ideology_distance": 3.901255817009645e-08,
+      "seniority": 4.2097068274141337e-07,
+      "is_republican": 0.005921712115920906
+    },
+    "bse": {
+      "const": 0.07659464317628811,
+      "ideology_distance": 0.3863149598817642,
+      "seniority": 0.009632734855844212,
+      "is_republican": 0.06884706735251162
+    }
+  },
+  "with_bli": {
+    "params": {
+      "const": -1.3228195511186602,
+      "bli": 180.24545555843065,
+      "ideology_distance": 1.8368220657092795,
+      "seniority": 0.049530305294294565,
+      "is_republican": 0.21565199790946085
+    },
+    "pvalues": {
+      "const": 2.2336069204598914e-66,
+      "bli": 1.8243345105604947e-07,
+      "ideology_distance": 2.0412063475493516e-06,
+      "seniority": 3.424119118471187e-07,
+      "is_republican": 0.0018610733530336546
+    },
+    "bse": {
+      "const": 0.07686334309871849,
+      "bli": 34.553607189875386,
+      "ideology_distance": 0.38675627169425975,
+      "seniority": 0.009714741229714293,
+      "is_republican": 0.06930691450641893
+    }
+  },
+  "interaction": {
+    "params": {
+      "const": -1.3307515267303183,
+      "bli": 261.9180851700117,
+      "ideology_distance": 1.7318306677484765,
+      "seniority": 0.05199341605002509,
+      "is_republican": 0.22694521178002397,
+      "bli_x_republican": -161.96073694392473
+    },
+    "pvalues": {
+      "const": 4.078883556189861e-67,
+      "bli": 2.389330069112033e-07,
+      "ideology_distance": 9.509920157383631e-06,
+      "seniority": 7.156741496748518e-08,
+      "is_republican": 0.0010652248299683413,
+      "bli_x_republican": 0.018319585237468385
+    }
+  },
+  "era_splits": {
+    "early (100-106)": {
+      "n": 3077,
+      "n_departed": 926,
+      "params": {
+        "const": -1.0329326399467138,
+        "bli": 121.74039989164127,
+        "ideology_distance": 0.8985880304662686,
+        "seniority": 0.06032991449890044,
+        "is_republican": -0.07989292137807233
+      },
+      "pvalues": {
+        "const": 4.4149249851449715e-21,
+        "bli": 0.00961306686356505,
+        "ideology_distance": 0.12431639094247587,
+        "seniority": 0.028062636028432227,
+        "is_republican": 0.4619086901700882
+      }
+    },
+    "middle (107-112)": {
+      "n": 2658,
+      "n_departed": 790,
+      "params": {
+        "const": -1.5532252717722672,
+        "bli": 273.5370760968119,
+        "ideology_distance": 2.2489895790604,
+        "seniority": 0.0706795208583413,
+        "is_republican": 0.21823668981575642
+      },
+      "pvalues": {
+        "const": 1.4134149085443553e-29,
+        "bli": 1.3223066680244733e-08,
+        "ideology_distance": 0.000279061228242063,
+        "seniority": 2.818833013747931e-05,
+        "is_republican": 0.049959010109440996
+      }
+    },
+    "late (113-116)": {
+      "n": 1765,
+      "n_departed": 563,
+      "params": {
+        "const": -1.7226143208263873,
+        "bli": 123.255346788877,
+        "ideology_distance": 3.023494491391801,
+        "seniority": 0.05575631179408372,
+        "is_republican": 0.6935204432950703
+      },
+      "pvalues": {
+        "const": 1.2683124100579784e-27,
+        "bli": 0.26923529036472327,
+        "ideology_distance": 0.0004915083587457342,
+        "seniority": 0.0004297732361898986,
+        "is_republican": 5.241587523204717e-07
+      }
+    }
+  }
+}

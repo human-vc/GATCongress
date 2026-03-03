@@ -10,7 +10,7 @@ build/
 data/*.csv
 data/processed/
 
-results/
+results/*.pt
 
 *.pt
 *.pth
