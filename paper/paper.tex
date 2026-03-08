@@ -152,32 +152,25 @@ What happened after each connectivity peak is the key finding. The post-9/11 sur
 
 \subsection{Null Model Validation}
 
-To test whether the observed Fiedler trajectory reflects genuine partisan structure rather than a mechanical consequence of shifting degree distributions, we compare the empirical values against two null models (Figure~\ref{fig:nullmodel}).
+To test whether the observed Fiedler trajectory reflects genuine partisan structure rather than a mechanical consequence of shifting degree distributions, we compare the empirical values against two null models (Figure~\ref{fig:robustness}A).
 
 The first null preserves each Congress's degree sequence via the configuration model: for each of the 19 Congresses, we generate 1,000 random graphs with the same degree sequence and compute the Fiedler value for each. The configuration model null produces Fiedler values tightly concentrated around 0.90 for all Congresses (95\% CI: approximately $[0.885, 0.926]$ across the dataset). Every empirical Fiedler value falls far below this band ($p < 0.001$ for all 19 Congresses), confirming that the observed connectivity levels cannot be explained by degree distributions alone. The partisan segregation of edges---not the number of edges per member---drives the low algebraic connectivity.
 
 The second null tests whether the non-monotonicity is surprising given the overall decline in cross-party cooperation. We fit a linear model to the observed aggregate cross-party agreement rate (slope $= -0.012$ per Congress) and, for each Congress, simulate 200 networks where cross-party agreement follows the predicted linear decline with Gaussian noise. The resulting Fiedler trajectory declines monotonically. Critically, the empirical Fiedler values for the 106th through 111th Congresses exceed the temporal null's upper 95\% confidence bound, confirming that the post-9/11 and Obama-era connectivity spikes represent genuine structural deviations from trend rather than noise. A linear decline model cannot reproduce these oscillations. Conversely, the post-112th collapse is consistent with the temporal null's prediction of near-zero connectivity, suggesting that the system's endpoint is in line with the overall trend even if the path to it was not.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{paper_figures/null_model_band.pdf}
-    \caption{Empirical Fiedler trajectory against two null models. Gray band: 95\% CI from 1,000 configuration model random graphs per Congress (degree-preserving). Orange dotted: linear-decline temporal null. All empirical values fall far below the configuration model band, confirming that partisan edge segregation, not degree distribution, drives low connectivity. The 106th--111th empirical values exceed the temporal null, validating the non-monotonic oscillation as structurally genuine.}
-    \label{fig:nullmodel}
-\end{figure}
-
 Together, the two null models establish that the Fiedler trajectory is driven by genuine partisan structure (not degree distributions) and that the non-monotonic oscillations are real deviations from the overall trend (not statistical noise). These validations underpin the interpretations that follow.
 
 \subsection{Weighted Laplacian Comparison}
 
-Our primary analysis uses a binary adjacency matrix thresholded at $\tau = 0.5$, which raises the question of whether the observed dynamics are sensitive to this discretization. We construct a parallel weighted analysis using the continuous agreement scores $a_{ij}$ directly as edge weights, compute the weighted normalized Laplacian $L_w = I - D_w^{-1/2} W D_w^{-1/2}$ where $W$ is the full agreement matrix and $D_w$ its degree matrix, and extract the Fiedler value (Figure~\ref{fig:weighted}).
+Our primary analysis uses a binary adjacency matrix thresholded at $\tau = 0.5$, which raises the question of whether the observed dynamics are sensitive to this discretization. We construct a parallel weighted analysis using the continuous agreement scores $a_{ij}$ directly as edge weights, compute the weighted normalized Laplacian $L_w = I - D_w^{-1/2} W D_w^{-1/2}$ where $W$ is the full agreement matrix and $D_w$ its degree matrix, and extract the Fiedler value (Figure~\ref{fig:robustness}B).
 
 The binary and weighted trajectories correlate strongly ($r = 0.939$) and track closely in the pre-2010 era, both capturing the 107th and 111th spikes. The trajectories diverge after the 112th Congress: the binary Fiedler collapses to near zero while the weighted version remains around 0.5. This divergence has a clear interpretation. Within-party agreement stays high ($a_{ij} > 0.8$ for same-party pairs), keeping weighted degrees large, while cross-party agreement drops below the $\tau = 0.5$ threshold, eliminating binary edges. The binarization amplifies the bipartisan signal---precisely the structural feature we aim to measure. The weighted analysis confirms that the oscillatory pattern and post-2010 collapse are not threshold artifacts, while the divergence itself demonstrates that polarization operates through the selective elimination of cross-party cooperation rather than a uniform degradation of agreement.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{paper_figures/weighted_comparison.pdf}
-    \caption{Binary versus weighted Fiedler trajectories. Both capture the same oscillatory pattern pre-2010 ($r = 0.939$). Post-2010 divergence reflects the selective collapse of cross-party cooperation: within-party agreement remains high, sustaining weighted connectivity, while cross-party edges vanish at the binary threshold.}
-    \label{fig:weighted}
+    \includegraphics[width=\textwidth]{paper_figures/robustness_panels.pdf}
+    \caption{Robustness of the Fiedler trajectory. (A) Empirical values against two null models: gray band shows 95\% CI from 1,000 degree-preserving configuration model graphs per Congress; orange dotted line shows a linear-decline temporal null. All empirical values fall far below the configuration model band. The 106th--111th values exceed the temporal null, validating the non-monotonic oscillation as structurally genuine. (B) Binary versus weighted Fiedler trajectories ($r = 0.939$). Post-2010 divergence reflects the selective collapse of cross-party cooperation: within-party agreement remains high, sustaining weighted connectivity, while cross-party edges vanish at the binary threshold.}
+    \label{fig:robustness}
 \end{figure}
 
 The weighted analysis also provides independent confirmation of the density-without-connectivity finding (Section~4.2): the weighted Fiedler's persistence at ${\sim}0.5$ in the post-2010 era while the binary version collapses to ${\sim}0.03$ directly measures the selective rewiring of cooperation from cross-party to within-party edges.
@@ -298,7 +291,7 @@ The individual cases illustrate a broader pattern. In the 104th Congress, Skelto
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{paper_figures/bli_over_time.pdf}
-    \caption{Bridge Legislator Index over time. Mean $|\text{BLI}|$ (solid) and maximum BLI (dashed) for each Congress. The decline in both measures reflects the disappearance of cross-partisan bridge members from the House.}
+    \caption{Bridge Legislator Index over time (dual axes). Left axis (blue): mean $|\text{BLI}|$ declines as cross-partisan cooperation disappears. Right axis (red): maximum BLI rises in the post-2010 era because the near-disconnected network's residual connectivity depends on a single remaining bridge member whose removal causes a disproportionate Fiedler change. The divergence between mean and max reflects the concentration of bridging in fewer members.}
     \label{fig:bli_time}
 \end{figure}
 
@@ -399,14 +392,7 @@ Taken together, these two perturbation experiments suggest that the structural d
 
 \subsection*{Bicameral Note}
 
-Senate Fiedler values decline from 0.763 (100th) to 0.054 (118th), a 93\% collapse comparable to the House's 94\% (Figure~\ref{fig:bicameral}). The Senate maintains higher residual connectivity throughout, consistent with the filibuster's structural incentive for bipartisan cooperation. Notably, the Obama supermajority that produced a cooperation surge in the House had the opposite effect in the Senate, where the 60-seat Democratic majority reduced the incentive for cross-party negotiation. A full bicameral analysis---including Senate BLI computation, departure regression, and comparison of bridge legislator survival rates across chambers---is left for future work. The institutional difference (filibuster creating structural incentives for bipartisan cooperation) is testable: if Senate bridge legislators survive longer than House bridges with similar BLI scores, that would constitute evidence that institutional rules buffer against the selection mechanism documented here.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{paper_figures/house_senate_fiedler.pdf}
-    \caption{Fiedler value trajectories for the House and Senate co-voting networks, 100th--118th Congresses. Both chambers exhibit long-run connectivity collapse, but the Senate maintains higher residual connectivity, consistent with the filibuster's structural incentive for bipartisan cooperation.}
-    \label{fig:bicameral}
-\end{figure}
+Senate Fiedler values decline from 0.763 (100th) to 0.054 (118th), a 93\% collapse comparable to the House's 94\% (Figure~\ref{fig:bicameral}, Appendix~\ref{app:bicameral}). The Senate maintains higher residual connectivity throughout, consistent with the filibuster's structural incentive for bipartisan cooperation. Notably, the Obama supermajority that produced a cooperation surge in the House had the opposite effect in the Senate, where the 60-seat Democratic majority reduced the incentive for cross-party negotiation. A full bicameral analysis---including Senate BLI computation, departure regression, and comparison of bridge legislator survival rates across chambers---is left for future work.
 
 \section{Limitations}
 
@@ -514,6 +500,16 @@ Congress & Full $\lambda_2$ & Substantive $\lambda_2$ & Total Votes & Kept \\
 \end{tabular}
 }
 \end{table}
+
+\section{Bicameral Comparison}
+\label{app:bicameral}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{paper_figures/house_senate_fiedler.pdf}
+    \caption{Fiedler value trajectories for the House and Senate co-voting networks, 100th--118th Congresses. Both chambers exhibit long-run connectivity collapse, but the Senate maintains higher residual connectivity, consistent with the filibuster's structural incentive for bipartisan cooperation.}
+    \label{fig:bicameral}
+\end{figure}
 
 \section{Code and Data Availability}
 
