@@ -150,6 +150,13 @@ The 111th Congress (2009--2011) reveals a second connectivity spike. With a Fied
 
 What happened after each connectivity peak is the key finding. The post-9/11 surge reversed within two Congresses, with the Fiedler value falling from 0.805 back below 0.5 by the 109th. The system snapped back. Now compare that to the post-2010 period: after the Tea Party wave drove connectivity from 0.737 to 0.073, no subsequent event produced anything resembling a recovery. Not the Trump presidency, not the January 6th crisis, not a global pandemic. The graph stayed disconnected. This asymmetry points to something beyond the level of polarization itself. In the early 2000s, a crisis could temporarily override partisan sorting and rebuild bipartisan cooperation. By the 2010s, that capacity appears to have been lost. The network cannot regenerate the cross-party connections that crises once produced.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{paper_figures/fiedler_party_distance.pdf}
+    \caption{Polarization over time measured by network structure (Fiedler value) and ideological distance (DW-NOMINATE party distance). The two measures are correlated but tell different stories: the Fiedler value reveals a post-9/11 cooperation surge, an Obama-era spike, and a dramatic structural collapse after the Tea Party wave that the smoother ideological distance measure misses.}
+    \label{fig:polarization}
+\end{figure}
+
 \subsection{Spectral Gap and Partisan Bisection}
 
 The two-bloc interpretation of the Fiedler value rests on an implicit assumption: that the network's second eigenvalue captures a clean partisan split rather than a more complex fragmentation pattern. We test this by examining the ratio $\lambda_2 / \lambda_3$, where $\lambda_3$ is the third-smallest eigenvalue of the normalized Laplacian. A small ratio indicates that $\lambda_2$ is well-separated from the rest of the spectrum, consistent with a dominant two-way partition.
@@ -232,13 +239,6 @@ This explains the recovery asymmetry. The Contract wave entered a chamber where 
     \includegraphics[width=\textwidth]{paper_figures/freshman_cohorts.pdf}
     \caption{Cross-party agreement rate distributions for incoming freshmen. (A) Histograms: the 104th Congress (Contract with America) freshmen cluster near 0.40, with a fat right tail of cross-party cooperators. The 112th (Tea Party) freshmen are concentrated below 0.35. Dashed lines indicate medians. (B) Empirical CDFs with KS test statistic. The distributions are near-completely separated ($D = 0.83$, $p < 10^{-34}$).}
     \label{fig:freshman_cohorts}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{paper_figures/fiedler_party_distance.pdf}
-    \caption{Polarization over time measured by network structure (Fiedler value) and ideological distance (DW-NOMINATE party distance). The two measures are correlated but tell different stories: the Fiedler value reveals a post-9/11 cooperation surge, an Obama-era spike, and a dramatic structural collapse after the Tea Party wave that the smoother ideological distance measure misses.}
-    \label{fig:polarization}
 \end{figure}
 
 The Fiedler value captures whether the network fractured but not how the fracture reorganized individual members. To track this, we compute a \textit{Structural Realignment Index} (SRI): for each congress-to-congress transition, the $L_2$ norm of the sign-aligned Fiedler vector displacement between consecutive sessions, restricted to members present in both.\footnote{Formally, $\text{SRI}(t) = \| \tilde{\mathbf{v}}_{t} - \tilde{\mathbf{v}}_{t-1} \|_2$, where $\tilde{\mathbf{v}}_t$ is the Fiedler eigenvector restricted to shared members, with sign alignment ($\tilde{\mathbf{v}}_t \leftarrow -\tilde{\mathbf{v}}_t$ if $\tilde{\mathbf{v}}_{t}^\top \tilde{\mathbf{v}}_{t-1} < 0$) to resolve eigenvector sign ambiguity.} The Tea Party wave (SRI = 0.59) and the Obama supermajority (SRI = 0.52) produce the largest structural realignments (Figure~\ref{fig:sri}), while post-2013 transitions show minimal SRI, consistent with a network that has settled into a stable disconnected configuration. This temporal pattern corroborates the era decomposition in Section~8: high-SRI transitions coincide with the period of most intense bridge legislator elimination.
