@@ -4,7 +4,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from config import (
     DATA_DIR, PROCESSED_DIR, CONGRESSES,
-    MIN_VOTES, MIN_SHARED_VOTES, THRESHOLD_TAU, DEFECTION_THRESHOLD,
+    MIN_VOTES, MIN_SHARED_VOTES, THRESHOLD_TAU,
 )
 
 import numpy as np
@@ -104,46 +104,10 @@ def process_congress(congress_num, members_all, votes_all):
         mean_agreement, mean_cross, mean_within,
     ], axis=1).astype(np.float32)
 
-    party_majority = np.zeros(n_rolls, dtype=np.float32)
-    for j in range(n_rolls):
-        col = vote_matrix[:, j]
-        for p_code in [100, 200]:
-            p_mask = party_codes == p_code
-            p_votes = col[p_mask & ~np.isnan(col)]
-            if len(p_votes) > 0:
-                party_majority[j] = 1.0 if p_votes.mean() > 0.5 else 0.0
-
-    defection_rates = np.zeros(n, dtype=np.float32)
-    for i in range(n):
-        voted_mask = ~np.isnan(vote_matrix[i])
-        if voted_mask.sum() == 0:
-            continue
-
-        my_party = party_codes[i]
-        n_defections = 0
-        n_voted = 0
-
-        for j in np.where(voted_mask)[0]:
-            same_party_mask = (party_codes == my_party) & (~np.isnan(vote_matrix[:, j]))
-            if same_party_mask.sum() < 3:
-                continue
-            party_mean = vote_matrix[same_party_mask, j].mean()
-            party_maj = 1.0 if party_mean > 0.5 else 0.0
-            n_voted += 1
-            if vote_matrix[i, j] != party_maj:
-                n_defections += 1
-
-        if n_voted > 0:
-            defection_rates[i] = n_defections / n_voted
-
-    labels = (defection_rates >= DEFECTION_THRESHOLD).astype(np.int32)
-
     return {
         "adjacency": adjacency,
         "agreement": agreement,
         "features": features,
-        "labels": labels,
-        "defection_rates": defection_rates,
         "member_ids": icpsr_list,
         "party_codes": party_codes,
         "member_names": members["bioname"].values,
@@ -171,8 +135,6 @@ def main():
             adjacency=result["adjacency"],
             agreement=result["agreement"],
             features=result["features"],
-            labels=result["labels"],
-            defection_rates=result["defection_rates"],
             member_ids=result["member_ids"],
             party_codes=result["party_codes"],
             member_names=result["member_names"],
@@ -182,8 +144,7 @@ def main():
 
         n = len(result["member_ids"])
         n_edges = int(result["adjacency"].sum()) // 2
-        n_defectors = int(result["labels"].sum())
-        print(f"n={n}, edges={n_edges}, defectors={n_defectors}")
+        print(f"n={n}, edges={n_edges}")
 
     print("Data pipeline complete.")
 
