@@ -198,5 +198,31 @@
       "n": 3192,
       "balanced_subsample": true
     }
+  },
+  "abs_nominate_robustness": {
+    "params": {
+      "const": -0.5498127510109113,
+      "bli": -42.63370444785201,
+      "ideology_distance": 1.935504212845002,
+      "abs_nominate": -2.2734383482935487,
+      "seniority": 0.060436891095802685,
+      "is_republican": 0.3390288440156089
+    },
+    "pvalues": {
+      "const": 4.481605935017411e-06,
+      "bli": 0.3005142884487636,
+      "ideology_distance": 1.6008336713452638e-06,
+      "abs_nominate": 2.035006213233052e-14,
+      "seniority": 9.882690308186767e-09,
+      "is_republican": 7.362752098613867e-06
+    },
+    "bse": {
+      "const": 0.11984502181171063,
+      "bli": 41.17880984856001,
+      "ideology_distance": 0.403379785965862,
+      "abs_nominate": 0.2972437809481653,
+      "seniority": 0.010542427673465766,
+      "is_republican": 0.07562673910936149
+    }
   }
 }

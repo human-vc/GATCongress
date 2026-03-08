@@ -170,6 +170,22 @@ def main():
     interaction_result = run_interaction_model(panel)
     era_results = run_era_splits(panel)
 
+    print("\n--- Absolute NOMINATE Robustness ---")
+    panel["abs_nominate"] = panel["nominate_dim1"].abs()
+    fvars_abs = ["bli", "ideology_distance", "abs_nominate", "seniority", "is_republican"]
+    X_abs = sm.add_constant(panel[fvars_abs])
+    y_abs = panel["departed_within_2"]
+    g_abs = panel["icpsr"]
+    m_abs = GEE(y_abs, X_abs, groups=g_abs, family=Binomial(), cov_struct=Independence())
+    r_abs = m_abs.fit()
+    abs_nominate_result = {
+        "params": dict(zip(r_abs.params.index.tolist(), r_abs.params.values.tolist())),
+        "pvalues": dict(zip(r_abs.pvalues.index.tolist(), r_abs.pvalues.values.tolist())),
+        "bse": dict(zip(r_abs.bse.index.tolist(), r_abs.bse.values.tolist())),
+    }
+    print(f"  BLI: coef={r_abs.params['bli']:.1f}, p={r_abs.pvalues['bli']:.2e}")
+    print(f"  abs_nominate: coef={r_abs.params['abs_nominate']:.3f}, p={r_abs.pvalues['abs_nominate']:.2e}")
+
     print("\n--- GEE Correlation Structure Sensitivity ---")
     corr_sensitivity = {}
 
@@ -306,6 +322,7 @@ def main():
         },
         "era_splits": era_results,
         "correlation_sensitivity": corr_sensitivity,
+        "abs_nominate_robustness": abs_nominate_result,
     }
 
     with open(RESULTS_DIR / "bli_regression_results.json", "w") as f:
