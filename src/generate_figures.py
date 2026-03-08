@@ -569,8 +569,6 @@ def fig_freshman_cohorts():
 
     cwa_xp = np.array(data["contract_with_america_104"]["fresh_xparty"])
     tea_xp = np.array(data["tea_party_112"]["fresh_xparty"])
-    ks_stat = data["ks_test_xparty"]["statistic"]
-    ks_p = data["ks_test_xparty"]["pvalue"]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.5, 2.8))
 
@@ -586,11 +584,8 @@ def fig_freshman_cohorts():
 
     ax1.set_xlabel("Mean cross-party agreement rate")
     ax1.set_ylabel("Density")
-    ax1.text(0.97, 0.95,
-             f"KS = {ks_stat:.2f}\n$p < 10^{{-34}}$",
-             transform=ax1.transAxes, fontsize=7, va="top", ha="right")
     ax1.legend(fontsize=7, handlelength=1.2, handletextpad=0.4,
-               labelspacing=0.2, loc="upper left")
+               labelspacing=0.2, loc="upper right")
     ax1.set_title("A", fontsize=10, fontweight="bold", loc="left", pad=4)
     ax1.set_xlim(0.20, 0.55)
 
@@ -604,19 +599,6 @@ def fig_freshman_cohorts():
              label="104th (Contract)")
     ax2.step(tea_sorted, tea_cdf, where="post", color=OI_VERMILLION, linewidth=1.1,
              label="112th (Tea Party)")
-
-    # Shade the KS gap region
-    # Find the point of maximum divergence
-    all_vals = np.sort(np.concatenate([cwa_xp, tea_xp]))
-    cwa_ecdf = np.searchsorted(cwa_sorted, all_vals, side="right") / len(cwa_sorted)
-    tea_ecdf = np.searchsorted(tea_sorted, all_vals, side="right") / len(tea_sorted)
-    max_idx = np.argmax(np.abs(cwa_ecdf - tea_ecdf))
-    max_x = all_vals[max_idx]
-    ax2.annotate("", xy=(max_x, tea_ecdf[max_idx]), xytext=(max_x, cwa_ecdf[max_idx]),
-                 arrowprops=dict(arrowstyle="<->", color=NEUTRAL, lw=0.8))
-    ax2.text(max_x - 0.025, (cwa_ecdf[max_idx] + tea_ecdf[max_idx]) / 2,
-             f"$D = {ks_stat:.2f}$", fontsize=7, va="center", ha="center",
-             color=NEUTRAL)
 
     ax2.set_xlabel("Mean cross-party agreement rate")
     ax2.set_ylabel("Cumulative probability")
