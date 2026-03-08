@@ -77,12 +77,12 @@ def main():
     members_all = pd.read_csv(DATA_DIR / "HSall_members.csv", low_memory=False)
     votes_all = pd.read_csv(DATA_DIR / "HSall_votes.csv", low_memory=False)
 
-    congresses_needed = [100, 103, 105, 106, 107, 109, 111, 112, 114]
+    congresses_needed = [103, 104, 105, 106, 107, 108, 111, 112, 114]
     thresholds = [0.45, 0.50, 0.55]
 
     shocks = {
-        "Contract with America": {"pre": 100, "shock": 103, "post": 105},
-        "9/11 Rally": {"pre": 106, "shock": 107, "post": 109},
+        "Contract with America": {"pre": 103, "shock": 104, "post": 105},
+        "9/11 Rally": {"pre": 106, "shock": 107, "post": 108},
         "Tea Party": {"pre": 111, "shock": 112, "post": 114},
     }
 

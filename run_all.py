@@ -14,39 +14,43 @@ def main():
     print("CongressNetwork Pipeline")
     print("=" * 60)
 
-    print("\n[1/9] Data Pipeline")
+    print("\n[1/10] Data Pipeline")
     from data_pipeline import main as run_data
     run_data()
 
-    print("\n[2/9] Spectral Analysis")
+    print("\n[2/10] Spectral Analysis")
     from spectral_analysis import main as run_spectral
     run_spectral()
 
-    print("\n[3/9] BLI Regression")
+    print("\n[3/10] BLI Regression")
     from bli_regression import main as run_bli
     run_bli()
 
-    print("\n[4/9] Freshman Cohort Analysis")
+    print("\n[4/10] Freshman Cohort Analysis")
     from freshman_cohort_analysis import main as run_freshman
     run_freshman()
 
-    print("\n[5/9] Null Model Analysis")
+    print("\n[5/10] Null Model Analysis")
     from null_model_analysis import main as run_null
     run_null()
 
-    print("\n[6/9] Weighted Spectral Analysis")
+    print("\n[6/10] Weighted Spectral Analysis")
     from weighted_spectral import main as run_weighted
     run_weighted()
 
-    print("\n[7/9] Vote Filtering Analysis")
+    print("\n[7/10] Vote Filtering Analysis")
     from vote_filtering import main as run_filtering
     run_filtering()
 
-    print("\n[8/9] Counterfactual Sensitivity")
+    print("\n[8/10] Recovery Threshold Sensitivity")
+    from recovery_threshold_sensitivity import main as run_recovery
+    run_recovery()
+
+    print("\n[9/10] Counterfactual Sensitivity")
     from counterfactual_sensitivity import main as run_counterfactual
     run_counterfactual()
 
-    print("\n[9/9] Figures")
+    print("\n[10/10] Figures")
     from generate_figures import main as run_figures
     run_figures()
 
