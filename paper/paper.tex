@@ -59,7 +59,7 @@
 \maketitle
 
 \begin{abstract}
-We construct co-voting networks for every U.S.\ House Congress from the 100th (1987) through the 118th (2025), connecting legislators who agree on a majority of shared roll-call votes, and track their spectral properties over time. The Fiedler value rises from 0.534 to a peak of 0.805 in the post-9/11 107th Congress, surges again to 0.737 in the 111th, then collapses to 0.032 by the 118th, indicating near-complete structural disconnection between partisan blocs. Though the mid-period spikes are attenuated when restricted to substantive policy votes, the post-2010 collapse is robust across vote subsets, null model comparisons, and weighted Laplacian specifications. A structural recovery analysis reveals that the network's capacity to absorb shocks has itself deteriorated: the post-Contract with America period produced full recovery (ratio 1.93), while the post-Tea Party collapse proved permanent (ratio 0.01). We introduce a Bridge Legislator Index quantifying each member's contribution to algebraic connectivity. BLI predicts congressional departure ($p < 10^{-7}$) beyond ideology distance, seniority, and party, though this effect is largely attributable to ideological centrism rather than network position per se. Counterfactual perturbation experiments suggest that roughly 35 bridge legislators account for most of the structural difference between the connected 103rd Congress and the disconnected 118th. The structural scaffolding of bipartisan cooperation has lost its capacity for self-repair.
+We construct co-voting networks for every U.S.\ House Congress from the 100th (1987) through the 118th (2025), connecting legislators who agree on a majority of shared roll-call votes, and track their spectral properties over time. The Fiedler value rises from 0.534 to a peak of 0.805 in the post-9/11 107th Congress (0.210 on substantive policy votes alone), surges again to 0.737 in the 111th (0.110 substantive), then collapses to 0.032 by the 118th. The mid-period spikes are inflated by near-unanimous suspension votes, but the post-2010 collapse is robust across vote subsets, null model comparisons, and weighted Laplacian specifications. A structural recovery analysis reveals that the network's capacity to absorb shocks has itself deteriorated: the post-Contract with America period produced full recovery (ratio 1.93), while the post-Tea Party collapse proved permanent (ratio 0.01). We introduce a Bridge Legislator Index quantifying each member's contribution to algebraic connectivity. BLI predicts congressional departure ($p < 10^{-7}$) beyond ideology distance, seniority, and party, though this effect is largely attributable to ideological centrism rather than network position per se. Counterfactual perturbation experiments suggest that roughly 35 bridge legislators account for most of the structural difference between the connected 103rd Congress and the disconnected 118th. The structural scaffolding of bipartisan cooperation has lost its capacity for self-repair.
 \end{abstract}
 
 \section{Introduction}
@@ -150,6 +150,12 @@ The 111th Congress (2009--2011) reveals a second connectivity spike. With a Fied
 
 What happened after each connectivity peak is the key finding. The post-9/11 surge reversed within two Congresses, with the Fiedler value falling from 0.805 back below 0.5 by the 109th. The system snapped back. Now compare that to the post-2010 period: after the Tea Party wave drove connectivity from 0.737 to 0.073, no subsequent event produced anything resembling a recovery. Not the Trump presidency, not the January 6th crisis, not a global pandemic. The graph stayed disconnected. This asymmetry points to something beyond the level of polarization itself. In the early 2000s, a crisis could temporarily override partisan sorting and rebuild bipartisan cooperation. By the 2010s, that capacity appears to have been lost. The network cannot regenerate the cross-party connections that crises once produced.
 
+\subsection{Spectral Gap and Partisan Bisection}
+
+The two-bloc interpretation of the Fiedler value rests on an implicit assumption: that the network's second eigenvalue captures a clean partisan split rather than a more complex fragmentation pattern. We test this by examining the ratio $\lambda_2 / \lambda_3$, where $\lambda_3$ is the third-smallest eigenvalue of the normalized Laplacian. A small ratio indicates that $\lambda_2$ is well-separated from the rest of the spectrum, consistent with a dominant two-way partition.
+
+Across all 19 Congresses, $\lambda_3$ remains stable between 0.91 and 0.96, while $\lambda_2$ varies from 0.805 to 0.010. The spectral gap ratio tracks $\lambda_2$ almost perfectly: it peaks at 0.85 in the 107th Congress, falls to 0.08 in the 112th, and reaches 0.01 by the 114th. The stability of $\lambda_3$ confirms that the network consistently organizes around two dominant blocs rather than fragmenting into multiple clusters. What changes is not the number of communities but the strength of the bridge between them.
+
 \subsection{Null Model Validation}
 
 To test whether the observed Fiedler trajectory reflects genuine partisan structure rather than a mechanical consequence of shifting degree distributions, we compare the empirical values against two null models (Figure~\ref{fig:robustness}A).
@@ -233,6 +239,8 @@ Connectivity magnitude alone cannot distinguish between uniform and selective lo
     \label{fig:sri}
 \end{figure}
 
+The SRI's temporal pattern corroborates the era decomposition in Section~8: the transitions with the highest SRI (111th--112th, 110th--111th) coincide with the era when bridge legislator elimination was most intense, while the low post-2013 SRI values reflect a network that has already settled into a stable disconnected configuration with little structural change between sessions.
+
 \section{Network Visualization}
 
 The spectral measures quantify structural change abstractly. To convey what this change looks like, Figure~\ref{fig:network} plots the co-voting networks for two Congresses separated by two decades, with members positioned by their DW-NOMINATE scores.
@@ -301,21 +309,13 @@ The individual cases illustrate a broader pattern. In the 104th Congress, Skelto
 \FloatBarrier
 \section{BLI, Ideological Centrism, and Congressional Departure}
 
-The preceding section documented that bridge legislators are systematically eliminated from Congress. We now test this formally. If high-BLI legislators depart at higher rates than their colleagues, controlling for ideology, seniority, and party, the bridge position itself confers electoral vulnerability, not merely the ideological moderation with which it correlates.
+Bridge legislators are systematically eliminated from Congress. We test this with a GEE logistic regression on a member-congress panel (100th--116th Congresses, 7,500 observations, 1,565 unique members, 30.4\% departure rate). For each member $i$ in Congress $t$, the dependent variable is whether the member is absent from Congress $t+2$. Independent variables are BLI, ideology distance (absolute DW-NOMINATE distance from party median), seniority, and a Republican indicator. We cluster by member and report results under independence, exchangeable, and AR(1) working correlation structures (Appendix~\ref{app:gee}).
 
-\subsection{Panel Construction}
-
-We construct a member-congress panel covering the 100th through 116th Congresses. For each member $i$ in Congress $t$, the dependent variable is $\text{Departed}_{i,t}$: a binary indicator equal to 1 if the member is absent from the congressional roster two sessions later (Congress $t+2$). The two-congress window accounts for the possibility of voluntary retirement, primary defeat, general election loss, or redistricting. The panel contains 7,500 member-congress observations across 1,565 unique members, with a departure rate of 30.4\%.
-
-The independent variables are: BLI (the Bridge Legislator Index computed in Section~7), ideology distance (absolute DW-NOMINATE dimension-1 distance from the member's party median), seniority (number of prior Congresses served), and a Republican indicator.
-
-\subsection{Estimation}
-
-We estimate generalized estimating equations (GEE) with a binomial family and independence working correlation structure, clustered by member to account for repeated observations of the same legislator across Congresses. We compare two specifications: a baseline model without BLI, and the full model with BLI included. We also re-estimate the full model under exchangeable and AR(1) working correlation structures on a balanced subsample ($N = 3{,}192$, members with 2--6 observations, required for convergence given the highly unequal cluster sizes). The BLI coefficient remains positive under all three structures (independence: $\beta = 180.2$, $p < 10^{-7}$; exchangeable: $\beta = 100.6$, $p = 0.097$; AR(1): $\beta = 57.8$, $p = 0.268$), with the reduced significance under exchangeable and AR(1) attributable primarily to the smaller subsample. The AR(1) specification, which models temporal dependence within a member's career, produces the largest attenuation ($\beta = 57.8$), consistent with the possibility that BLI and departure risk are both trending over time within members rather than BLI causally driving departure at each observation. The full results are reported in Appendix~\ref{app:gee}.
+The headline result requires an immediate caveat. BLI predicts departure ($\beta = 180.2$, $p < 10^{-7}$) beyond ideology distance, seniority, and party (Table~\ref{tab:bli_regression}). But adding absolute DW-NOMINATE score as a centrism control renders BLI nonsignificant ($\beta = -42.6$, $p = 0.30$), while the centrism variable is strongly predictive ($\beta = -2.27$, $p < 10^{-14}$). The BLI-departure association is driven by the collinearity between bridge position and ideological moderation: centrists occupy the network's bridge positions and centrists are electorally vulnerable. The causal pathway runs through ideological position rather than network position per se.
 
 \begin{table}[H]
 \centering
-\caption{GEE logistic regression predicting congressional departure within two sessions. Standard errors clustered by member. Adding BLI attenuates the ideology distance coefficient, though as discussed below, the BLI effect is itself largely attributable to ideological centrism.}
+\caption{GEE logistic regression predicting congressional departure within two sessions. Standard errors clustered by member.}
 \label{tab:bli_regression}
 \begin{tabular}{lcccc}
 \toprule
@@ -334,21 +334,15 @@ $N$ & \multicolumn{2}{c}{7,500} & \multicolumn{2}{c}{7,500} \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:bli_regression} presents the results. In the baseline model without BLI, ideology distance is the dominant predictor of departure ($\beta = 2.123$, $p < 10^{-7}$). Adding BLI to the model produces a highly significant coefficient ($\beta = 180.2$, $p < 10^{-7}$) and attenuates the ideology distance coefficient from 2.123 to 1.837. At first glance, this attenuation might suggest that BLI captures a distinct structural vulnerability beyond ideological position. However, as the centrism control below demonstrates, the BLI-departure association is largely driven by the collinearity between bridge position and ideological moderation, and the apparent attenuation of ideology distance reflects this overlap rather than evidence of a separate network mechanism.
+This does not diminish BLI as a descriptive measure. The spectral analysis, null models, and structural recovery findings are unaffected. What the centrism control clarifies is mechanism: moderates are electorally vulnerable because they are moderate, and their departure damages connectivity because moderates are the members whose voting patterns span partisan clusters. The structural consequence is real; the pathway is ideological.
 
-The large magnitude of the BLI coefficient reflects the small scale of BLI values (typically $10^{-3}$ to $10^{-2}$). A one-standard-deviation increase in BLI corresponds to an approximate 15\% increase in the probability of departure, holding other variables constant.
+A $\text{BLI} \times \text{Republican}$ interaction is significant ($\beta = -162.0$, $p = 0.018$): bridge position is more strongly associated with departure for Democrats, consistent with the systematic elimination of conservative Southern Democrats through primary challenges and redistricting during the Republican realignment.
 
-\subsection{Partisan Asymmetry}
-
-We extend the model with a $\text{BLI} \times \text{Republican}$ interaction term. The interaction is significant ($\beta = -162.0$, $p = 0.018$), indicating that the BLI-departure relationship is stronger for Democrats than Republicans. This is consistent with the observation that bridge legislators in early Congresses were predominantly conservative Democrats from Southern districts, a cohort systematically eliminated through primary challenges and redistricting during the period of Republican realignment in the South.
-
-\subsection{Era Decomposition}
-
-To examine how the BLI-departure relationship evolves over time, we split the panel into three eras and re-estimate the GEE model with BLI separately for each.
+Era decomposition (Table~\ref{tab:bli_eras}, Figure~\ref{fig:bli_regression}) reveals that the BLI-departure association peaks in the 107th--112th Congresses ($\beta = 273.5$, $p < 10^{-8}$), the period of most rapid bridge legislator elimination. In the late era (113th--116th), the effect is nonsignificant ($p = 0.269$), not because bridge position became safe but because bridge legislators had already been purged, leaving insufficient BLI variance.
 
 \begin{table}[H]
 \centering
-\caption{BLI coefficient by era. The effect is strongest in the middle period (107th--112th), coinciding with the Tea Party wave and the most rapid elimination of bridge legislators. The late-era insignificance reflects insufficient BLI variance after bridge legislators have already been selected out.}
+\caption{BLI coefficient by era. The effect peaks during the Tea Party wave and becomes undetectable once bridge legislators have been selected out.}
 \label{tab:bli_eras}
 \begin{tabular}{lccccc}
 \toprule
@@ -361,18 +355,12 @@ Late & 113th--116th & 1,765 & 563 & 123.3 & 0.269 \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:bli_eras} and Figure~\ref{fig:bli_regression} reveal a striking pattern. The BLI-departure relationship is strongest in the middle era (107th--112th, $\beta = 273.5$, $p < 10^{-8}$), precisely the period when the Tea Party wave was eliminating the remaining bridge legislators. In the early era (100th--106th), the effect is significant but smaller ($\beta = 121.7$, $p = 0.010$), consistent with a less intense but ongoing process of bridge legislator attrition. In the late era (113th--116th), the effect is not significant ($p = 0.269$), but this does not indicate that bridge position is no longer risky. Rather, by this period the bridge legislators have already been eliminated, leaving insufficient variance in BLI to detect an effect. The selection mechanism succeeded: having purged the bridges, the network's structural fragility became self-sustaining without further selective pressure.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{paper_figures/bli_regression_coefs.pdf}
-    \caption{(A) GEE coefficients for the full model predicting congressional departure. In the specification without the centrism control, BLI is the strongest predictor; significance stars indicate $p < 0.001$. (B) BLI coefficient by era, showing the effect peaks during the 107th--112th Congresses, the period of most rapid bridge legislator elimination.}
+    \caption{(A) GEE coefficients for the model without centrism control. BLI is the strongest predictor; significance stars indicate $p < 0.001$. (B) BLI coefficient by era, peaking during the 107th--112th Congresses.}
     \label{fig:bli_regression}
 \end{figure}
-
-A natural concern is that BLI mechanically correlates with ideological centrism: members near the center of the chamber sit between partisan clusters and will tend to have higher BLI regardless of their actual cooperative behavior. To test this, we add absolute DW-NOMINATE score (distance from zero) as a covariate. The BLI coefficient drops from 180.2 ($p < 10^{-7}$) to $-42.6$ ($p = 0.30$) and becomes nonsignificant, while absolute NOMINATE is strongly predictive ($\beta = -2.27$, $p < 10^{-14}$), indicating that centrists depart at higher rates. This attenuation indicates substantial overlap between BLI and positional moderation: much of what BLI captures in the departure regression is the electoral vulnerability of ideological centrists rather than a distinct network-structural effect.
-
-This result qualifies but does not eliminate the paper's contribution. The BLI remains a useful \textit{descriptive} measure of individual contributions to network connectivity, and the spectral analysis, null models, and structural recovery findings are unaffected by this confound. What the centrism control reveals is that the mechanism of bridge legislator elimination is more parsimonious than our initial framing suggested: moderates are electorally vulnerable because they are moderate, and their departure damages network connectivity because moderates are the members whose voting patterns span partisan clusters. The structural consequence (network disconnection) is real and well-documented by our spectral measures; the causal pathway runs through ideological position rather than network position per se.
 
 \FloatBarrier
 \section{Counterfactual Network Perturbation}
@@ -415,15 +403,9 @@ Finally, this paper does not engage with the redistricting literature. Gerrymand
 
 \section{Conclusion}
 
-Between 1987 and 2025, the algebraic connectivity of the House co-voting network collapsed from a peak of 0.805 (107th Congress) to 0.032 (118th). The trajectory is not monotonic: a previously undocumented spike to 0.737 in the 111th Congress (2009--2011) reveals the network's capacity for bipartisan cooperation immediately before the Tea Party wave shattered it. The single largest structural shock occurred between the 111th and 112th Congresses, a Fiedler decline of 0.664 that dwarfs any other transition in the dataset. Roll-call scaling alone does not capture these dynamics.
+The House co-voting network collapsed from a Fiedler peak of 0.805 (107th Congress) to 0.032 (118th), with a previously undocumented spike to 0.737 in the 111th immediately before the Tea Party wave shattered it. The recovery ratio declined from 1.93 (Contract with America) to 0.01 (Tea Party): the system lost its capacity to absorb structural shocks. Roughly 35 bridge legislators account for most of the structural difference between the connected 103rd and the disconnected 118th, but their electoral vulnerability is driven by ideological centrism rather than network position per se.
 
-The structural recovery analysis formalizes a finding beyond the level of polarization itself: the network's capacity to absorb shocks has declined across successive events, from full recovery after the Contract with America (ratio 1.93) to permanent collapse after the Tea Party wave (ratio 0.01). The system has lost a fundamental capacity for structural resilience.
-
-The Bridge Legislator Index identifies which members matter structurally. Counterfactual perturbation experiments show that approximately 35 cross-partisan cooperators in a chamber of 435 account for most of the structural difference between the connected 103rd Congress and the disconnected 118th. GEE regression on 7,500 member-congress observations shows that bridge position predicts departure ($p < 10^{-7}$) beyond ideology distance, seniority, and party, but this effect is substantially attenuated when controlling for absolute ideological centrism ($p = 0.30$). The causal pathway runs through ideological position: moderates are electorally vulnerable because they are moderate, and their departure damages network connectivity because moderates are the members whose voting patterns span partisan clusters. The structural consequence is real; the mechanism is ideological sorting rather than a distinct network effect. The partisan asymmetry ($\text{BLI} \times \text{Republican}$ interaction, $p = 0.018$) is consistent with the elimination of conservative Southern Democrats during the Republican realignment.
-
-The deeper point is that polarization is a structural phenomenon, not a purely ideological one. Two parties can maintain substantial ideological distance while still cooperating on enough issues to govern, as Congress did for much of the 20th century. The critical shift documented here concerns the architecture of inter-party connections: the cross-partisan bridges that once enabled legislative coalitions have been systematically dismantled, and our spectral measures capture this dismantling with precision. The post-9/11 rally showed that exogenous shocks could temporarily rebuild bipartisan connectivity, but nothing comparable has occurred in the post-2010 era. The system appears to have lost a fundamental capacity for structural resilience. Disconnected and brittle.
-
-A legislature that cannot form cross-partisan majorities faces diminished capacity to respond to crises, negotiate fiscal compromises, and sustain stable governance. The network structures documented here represent the institutional scaffolding on which that capacity depends. Their deterioration warrants sustained empirical attention from both computational and political science communities.
+Polarization is a structural phenomenon, not a purely ideological one. Two parties can maintain substantial ideological distance while cooperating on enough issues to govern, as Congress did for much of the 20th century. What changed is the architecture of inter-party connections: the cross-partisan bridges that once enabled legislative coalitions have been dismantled, and nothing in the post-2010 era has rebuilt them. The network structures documented here represent the institutional scaffolding on which legislative capacity depends. Disconnected and brittle.
 
 \bibliographystyle{apalike}
 \bibliography{references}
@@ -433,7 +415,7 @@ A legislature that cannot form cross-partisan majorities faces diminished capaci
 \section{Co-Voting Threshold Sensitivity}
 \label{app:threshold}
 
-Table~\ref{tab:threshold_sensitivity} reports key metrics across co-voting agreement thresholds from 0.4 to 0.7. The qualitative pattern of Fiedler value collapse is stable across threshold choices, confirming that the structural disconnection documented in our analysis is not an artifact of the $\tau = 0.5$ cutoff.
+Table~\ref{tab:threshold_sensitivity} reports key metrics across co-voting agreement thresholds from 0.4 to 0.7. The qualitative pattern of Fiedler value collapse is stable across threshold choices, with declines ranging from 91.7\% ($\tau = 0.4$) to 97.3\% ($\tau = 0.7$). The choice of $\tau = 0.5$ (majority agreement) is substantively motivated: it represents the natural boundary at which two members agree more often than they disagree. Thresholds below 0.4 produce nearly complete graphs with uninformative spectral properties; thresholds above 0.7 produce sparse graphs dominated by within-party edges. The 0.5 cutoff balances topological informativeness with substantive interpretability.
 
 \begin{table}[H]
 \centering
